@@ -26,6 +26,10 @@ $total_users_sql = "SELECT COUNT(*) as total FROM users WHERE role != 'admin'";
 $total_users_result = mysqli_query($conn, $total_users_sql);
 $total_users = mysqli_fetch_assoc($total_users_result)['total'];
 
+$total_admins_sql = "SELECT COUNT(*) as total FROM users WHERE role = 'admin'";
+$total_admins_result = mysqli_query($conn, $total_admins_sql);
+$total_admins = mysqli_fetch_assoc($total_admins_result)['total'];
+
 $recent_orders_sql = "SELECT o.id, o.created_at, o.total_amount, 
                              u.name as user_name, 
                              GROUP_CONCAT(p.name SEPARATOR ', ') as product_names
@@ -56,7 +60,8 @@ $products_result = mysqli_query($conn, $products_sql);
 
     <nav>
         <ul>
-            <li><a href="dashboard.php">Dashboard</a></li>
+            <li><a href="dashboard.php" class="active">Dashboard</a></li>
+            <li><a href="admin_users.php">Users</a></li>
             <li><a href="displayproduct.php">Products</a></li>
             <li><a href="vieworders.php">Orders</a></li>
             <li><a href="addproduct.php">Add Product</a></li>
@@ -104,6 +109,9 @@ $products_result = mysqli_query($conn, $products_sql);
             <div class="stat-value" style="color: var(--warning-color);">
                 <?php echo $total_users; ?>
             </div>
+            <small style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 0.25rem;">
+                <?php echo $total_admins; ?> Admin<?php echo $total_admins != 1 ? 's' : ''; ?>
+            </small>
         </div>
     </div>
 
